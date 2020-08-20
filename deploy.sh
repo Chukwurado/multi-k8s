@@ -4,11 +4,15 @@ docker build -t chukwurado/multi-worker:latest -t chukwurado/multi-worker:$SHA -
 
 docker push chukwurado/multi-client:latest
 docker push chukwurado/multi-client:$SHA
+
 docker push chukwurado/multi-server:latest
 docker push chukwurado/multi-server:$SHA
+
 docker push chukwurado/multi-worker:latest
 docker push chukwurado/multi-worker:$SHA
 
 kubectl apply -f k8s
 
-kubectl set image deployments/server-deployment server=chukwurado/multi-server
+kubectl set image deployments/server-deployment server=chukwurado/multi-server:$SHA
+kubectl set image deployments/client-deployment client=chukwurado/multi-client:$SHA
+kubectl set image deployments/worker-deployment worker=chukwurado/multi-worker:$SHA
